@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    
+    JackChouMine</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="jumbotron">
+  <div class="video">
+    
+      <div class="video-frame">
+        <img src="/images/ocean/overlay-hero.png" alt="Decorative image frame">
+      </div>
+    
+    <div class="video-media">
+      <video playsinline autoplay loop muted data-autoplay poster="/images/ocean/ocean.png" x5-video-player-type="h5">
+        <source src="/images/ocean/ocean.mp4" type="video/mp4">
+        <source src="/images/ocean/ocean.ogv" type="video/ogg">
+        <source src="/images/ocean/ocean.webm" type="video/webm">
+        <p>Your user agent does not support the HTML5 Video element.</p>
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+    <div class="video-inner text-center text-white">
+      <h1><a href="/">JackChouMine</a></h1>
+      <p></p>
+      <div><img src="/images/portrait.png" class="brand" alt="JackChouMine"></div>
+    </div>
+    <div class="video-learn-more">
+      <a class="anchor" href="#landingpage"><i class="fe fe-mouse"></i></a>
+    </div>
+  </div>
+</section>
+
+<div id="landingpage">
+  <section class="outer">
+  <article class="articles">
+    
+    <h1 class="page-type-title"></h1>
+
+    
+      
+        <article id="post-vue-状态管理（三）" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/05/26/vue-状态管理（三）/">vue 状态管理（三）</a>
+    </h2>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/26/vue-状态管理（三）/" class="article-date">
+  <time datetime="2019-05-26T12:35:39.000Z" itemprop="datePublished">2019-05-26</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/vue/">vue</a> / <a class="article-category-link" href="/categories/前端框架/">前端框架</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>我们修改 state，然后刷新浏览器，状态又变化原来的了，因为 state 是存在内存中的，为了点击刷新，状态不回到原来的，就需要 Vuex 提供的插件功能，当然插件还能实现其他复杂的功能。</p>
+        
+          <a class="article-more-link" href="/2019/05/26/vue-状态管理（三）/">阅读全文...</a>
+        
+      
+    </div>
+    
+<p class="reward" hidden></p>
+
+    
+
+  <div class="declare" hidden="hidden"></div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/05/26/vue-状态管理（三）/" data-id="ckd7fjfwe000toxqop5fyw8ej" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vuex/">vuex</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+  
+   <div class="recommended_posts" hidden></div>
+
+  
+
+</article>
+
+
+
+      
+        <article id="post-vue-状态管理（二）" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/05/26/vue-状态管理（二）/">vue 状态管理（二）</a>
+    </h2>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/26/vue-状态管理（二）/" class="article-date">
+  <time datetime="2019-05-26T10:57:29.000Z" itemprop="datePublished">2019-05-26</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/vue/">vue</a> / <a class="article-category-link" href="/categories/前端框架/">前端框架</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>上篇文章中说了 state 和 getters，本篇文章就来说说 mutations 和 actions。<br>
+提交 mutations 是改变 state 的唯一方式，不能用异步操作。actions 通过分发 action 来提交 mutation，可包含异步操作，比如 xhr 。</p>
+        
+          <a class="article-more-link" href="/2019/05/26/vue-状态管理（二）/">阅读全文...</a>
+        
+      
+    </div>
+    
+<p class="reward" hidden></p>
+
+    
+
+  <div class="declare" hidden="hidden"></div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/05/26/vue-状态管理（二）/" data-id="ckd7fjfwf000uoxqodg80jw9h" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vuex/">vuex</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+  
+   <div class="recommended_posts" hidden></div>
+
+  
+
+</article>
+
+
+
+      
+        <article id="post-vue-状态管理（一）" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/05/26/vue-状态管理（一）/">vue 状态管理（一）</a>
+    </h2>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/26/vue-状态管理（一）/" class="article-date">
+  <time datetime="2019-05-25T19:03:39.000Z" itemprop="datePublished">2019-05-26</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/vue/">vue</a> / <a class="article-category-link" href="/categories/前端框架/">前端框架</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>父子组件之间往往使用<strong>props</strong>和 <strong>$emit</strong> 实现数据共享，任意组件可通过<strong>bus（一个vue实例）<strong>作为桥梁，实现数据共享。当项目中组件越来越多时，组件之间的数据共享变得复杂，难以维护。使用 Vuex 可</strong>集中管理</strong>组件之间的数据（状态），使组件之间的<strong>数据共享</strong>变得简单。</p>
+        
+          <a class="article-more-link" href="/2019/05/26/vue-状态管理（一）/">阅读全文...</a>
+        
+      
+    </div>
+    
+<p class="reward" hidden></p>
+
+    
+
+  <div class="declare" hidden="hidden"></div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/05/26/vue-状态管理（一）/" data-id="ckd7fjfx3002yoxqons7u7voi" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vuex/">vuex</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+  
+   <div class="recommended_posts" hidden></div>
+
+  
+
+</article>
+
+
+
+      
+        <article id="post-vue 路由进阶" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/05/25/vue 路由进阶/">vue 路由进阶</a>
+    </h2>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/25/vue 路由进阶/" class="article-date">
+  <time datetime="2019-05-24T17:33:51.000Z" itemprop="datePublished">2019-05-25</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/vue/">vue</a> / <a class="article-category-link" href="/categories/前端框架/">前端框架</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>路由可向路由匹配的组件传递参数，<code>不同情况</code>向组件传递不同的参数，从而实现组件的复用。</p>
+        
+          <a class="article-more-link" href="/2019/05/25/vue 路由进阶/">阅读全文...</a>
+        
+      
+    </div>
+    
+<p class="reward" hidden></p>
+
+    
+
+  <div class="declare" hidden="hidden"></div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/05/25/vue 路由进阶/" data-id="ckd7fjfx2002xoxqomy8co8qk" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue-router/">vue-router</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+  
+   <div class="recommended_posts" hidden></div>
+
+  
+
+</article>
+
+
+
+      
+        <article id="post-vue 路由基础" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/05/25/vue 路由基础/">vue 路由基础</a>
+    </h2>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/25/vue 路由基础/" class="article-date">
+  <time datetime="2019-05-24T16:46:33.000Z" itemprop="datePublished">2019-05-25</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/vue/">vue</a> / <a class="article-category-link" href="/categories/前端框架/">前端框架</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>vue 使用 vue-router 插件处理路由，路由是开发单页应用必须掌握的知识。</p>
+        
+          <a class="article-more-link" href="/2019/05/25/vue 路由基础/">阅读全文...</a>
+        
+      
+    </div>
+    
+<p class="reward" hidden></p>
+
+    
+
+  <div class="declare" hidden="hidden"></div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/05/25/vue 路由基础/" data-id="ckd7fjfwd000roxqozzpq78fx" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue/">vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vue-router/">vue-router</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+  
+   <div class="recommended_posts" hidden></div>
+
+  
+
+</article>
+
+
+
+      
+        <article id="post-NPM-使用教程" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/05/18/NPM-使用教程/">NPM 使用教程</a>
+    </h2>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/05/18/NPM-使用教程/" class="article-date">
+  <time datetime="2019-05-18T08:18:12.000Z" itemprop="datePublished">2019-05-18</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/node/">node</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>​    npm 是<a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm包托管组织</a>开发的 node 包管理工具，使用它可下载、卸载、更新、发布 npm 包，从而实现代码的共享和复用，node 开发必须掌握，前端工程化基于 node，因此，npm 技能是前端必须知道的。安装了 node，npm就集成在里面了，无需另外安装。</p>
+        
+          <a class="article-more-link" href="/2019/05/18/NPM-使用教程/">阅读全文...</a>
+        
+      
+    </div>
+    
+<p class="reward" hidden></p>
+
+    
+
+  <div class="declare" hidden="hidden"></div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/05/18/NPM-使用教程/" data-id="ckd7fjfx0002toxqo5uqoc8sx" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node/">node</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/">npm</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+  
+   <div class="recommended_posts" hidden></div>
+
+  
+
+</article>
+
+
+
+      
+  </article>
+  
+  
+    <nav class="page-nav">
+      
+      <a class="extend prev" rel="prev" href="/page/2/">上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
+  
+</section>
+</div>
+
+  <footer class="footer">
+  
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 JackChouMine</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <!--
+ * @Description: 侧边栏
+ * @Date: 2020-07-29 21:03:01
+ * @Author: JackChouMine
+ * @LastEditTime: 2020-07-29 21:31:46
+ * @LastEditors: JackChouMine
+-->
+<button class="navbar-toggle"></button>
+
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/portrait.png" alt="JackChouMine"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="GitHub" href="https://github.com/jackchoumine" target="_blank">
+        <i class="fe fe-github"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="stackoverflow" href="https://stackoverflow.com/users/6524962/jackchoumine" target="_blank">
+        栈溢
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="思否" href="https://segmentfault.com/u/jackzhoumine" target="_blank">
+        思否
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+    <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Windows7下的包管理器Chocolatey的安装及使用 |
+    
+    JackChouMine</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-Windows7下的包管理器Chocolatey的安装及使用" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows7下的包管理器Chocolatey的安装及使用
+    </h1>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/10/07/Windows7下的包管理器Chocolatey的安装及使用/" class="article-date">
+  <time datetime="2019-10-07T13:16:39.000Z" itemprop="datePublished">2019-10-07</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/开发工具/">开发工具</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>以前安装过 chocolatey，win7 下报错，试了几次都没成功，今天学习 electron，又安装了一次，居然成功了。记录一下安装和使用。</p>
+<a id="more"></a>
+<hr>
+<p><ul class="markdownIt-TOC">
+<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8">使用</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8-gui">使用 gui</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E7%94%A8%E6%B3%95">其他用法</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+</ul>
+</p>
+<h2 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h2>
+<p>win7 终端下，或者cmder下，输入下面的字符串，然后回车:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="string">"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"</span> -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command <span class="string">"iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"</span> &amp;&amp; SET <span class="string">"PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"</span></span><br></pre></td></tr></table></figure>
+<p>没有错就显示安装信息了，安装成功后可能会报警告，别管它，然后检查是否安装成功：<br>
+在 git bash 或者 cmder 输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco</span><br></pre></td></tr></table></figure>
+<p>显示版本号等信息，就表示安装成功了。</p>
+<h2 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h2>
+<p><code>choco -h</code> 可查看常用命令，这里记录常用的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">choco &lt;<span class="built_in">command</span>&gt; -h <span class="comment"># 查看命令帮助 choco list -h  查看 list 用法</span></span><br><span class="line">choco list &lt;filter&gt; <span class="comment"># 搜索本地或者远程的安装包  clist 简写 search / find 和 list 功能相同</span></span><br><span class="line">choco list -li <span class="comment"># 查看本地安装的软件</span></span><br><span class="line">choco list -lo <span class="comment"># 列出已安装</span></span><br><span class="line">choco list --<span class="built_in">local</span> <span class="comment"># 查看本地通过 choco 安装的软件</span></span><br><span class="line">choco info &lt;pkg&gt; <span class="comment"># 查看安装包信息</span></span><br><span class="line"></span><br><span class="line">choco install &lt;pkg1&gt; &lt;pkg2&gt; <span class="comment"># 安装</span></span><br><span class="line">choco install --yes &lt;pkg1&gt; &lt;pkg2&gt; <span class="comment"># 安装时无需确认</span></span><br><span class="line">choco install &lt;pkg&gt; -y <span class="comment"># 同上</span></span><br><span class="line">cinst &lt;pkg&gt; -y --dir DIR <span class="comment"># 指定 DIR 为安装路径</span></span><br><span class="line">cinst &lt;pkg&gt; --version n <span class="comment">#指定版本号安装</span></span><br><span class="line">choco uninstall &lt;pkg&gt; <span class="comment"># 卸载软件</span></span><br><span class="line">cuninst &lt;pkg&gt; <span class="comment"># 卸载</span></span><br><span class="line"></span><br><span class="line">choco outdated <span class="comment"># 查看可更新的软件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">choco upgrade &lt;pkg|all&gt; [&lt;pkg&gt;] <span class="comment"># 更新所有或多个软件</span></span><br><span class="line">cup &lt;pkg|all&gt; [&lt;pkg&gt;] <span class="comment"># 更新所有或多个软件</span></span><br><span class="line">cup &lt;pkg&gt; --version 1.0.0 <span class="comment"># 更新某个版本</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用-gui"><a class="markdownIt-Anchor" href="#使用-gui"></a> 使用 gui</h2>
+<p>使用命令不习惯，还可以使用 gui。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cinst chocolateygui -y <span class="comment"># 安装</span></span><br></pre></td></tr></table></figure>
+<p>在<code>所有程序</code>里搜索<code>choco</code> ，点击启动gui了。</p>
+<p>还可在 <a href="https://chocolatey.org/packages" target="_blank" rel="noopener">chocolatey商店</a> 查找软件。</p>
+<h2 id="其他用法"><a class="markdownIt-Anchor" href="#其他用法"></a> 其他用法</h2>
+<p>修改安装的默认路径：</p>
+<ul>
+<li>花钱使用高级版本；</li>
+<li>修改注册表，谨慎操作，修改了，可能会导致某些软件运行报错，比如firefox。</li>
+</ul>
+<h2 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h2>
+<ul>
+<li><a href="https://blog.csdn.net/u013253924/article/details/83149821" target="_blank" rel="noopener">Windows7下的包管理器Chocolatey的安装</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/57663273" target="_blank" rel="noopener">Window上更方便的软件安装方式 — Chocolatey</a></li>
+<li><a href="https://blog.tdccc.com.tw/319/" target="_blank" rel="noopener">Chocolatey软体管理神器</a></li>
+<li><a href="https://blog.csdn.net/vrmogui/article/details/88593365" target="_blank" rel="noopener">设置软件默认安装路径（一劳永逸）</a></li>
+</ul>
+
+      
+    </div>
+    
+<h3 style="text-align:center">如有帮助，谢谢您请我喝咖啡 <i class="fe fe-smile"></i></h3>
+<p class="reward" style="text-align:center">
+  <img src="https://raw.githubusercontent.com/jackchoumine/jack-picture/master/alipay2.jpg" title="支付宝扫一扫" alt="支付宝收款二维码" width="30%" height="30%" style="display:inline;"><img src="https://raw.githubusercontent.com/jackchoumine/jack-picture/master/weixin2.jpg" title="微信扫一扫" alt="微信打赏二维码" width="30%" height="30%" style="display:inline;">
+</p>
+
+    
+
+  <div class="declare">
+    <strong>本文作者：</strong>
+    
+      JackChouMine
+    
+    <br>
+    <strong>本文链接：</strong>
+    https://JackChouMine.github.io/2019/10/07/Windows7下的包管理器Chocolatey的安装及使用/
+    <br>
+    <strong>版权声明：</strong>
+    本作品采用
+    <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+    进行许可。转载请注明出处！
+    
+      <br>
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      <img alt="知识共享许可协议" title="CC BY-NC-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+      </a>
+    
+  </div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/10/07/Windows7下的包管理器Chocolatey的安装及使用/" data-id="ckd7fjfw9000eoxqo22d1m6iw" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数码产品/">数码产品</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2020/01/18/阴阳五行之来历/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            阴阳五行之来历
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/10/06/hexo搭建博客/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">使用hexo + github搭建个人主页</div>
+      </a>
+    
+  </nav>
+
+
+  
+  
+  <div class="recommended_posts">
+    <h3>推荐阅读</h3>
+    <ul>
+    
+    
+      <li>
+        <a href="https://JackChouMine.github.io/2020/01/21/2019年总结/" title="2019年总结" target="_blank">
+        2019年总结
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://JackChouMine.github.io/2020/01/18/阴阳五行之来历/" title="阴阳五行之来历" target="_blank">
+        阴阳五行之来历
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://JackChouMine.github.io/2019/10/06/hexo搭建博客/" title="使用hexo + github搭建个人主页" target="_blank">
+        使用hexo + github搭建个人主页
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://JackChouMine.github.io/2019/10/06/git-学习笔记/" title="git 学习笔记" target="_blank">
+        git 学习笔记
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '90f92ec37c1bf3ff8c87',
+      clientSecret: 'c746c91801c749223e933fb3393dd4fd7f0e53a6',
+      repo: 'blog-comment',
+      owner: 'jackchoumine',
+      admin: ['jackchoumine'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 JackChouMine</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <!--
+ * @Description: 侧边栏
+ * @Date: 2020-07-29 21:03:01
+ * @Author: JackChouMine
+ * @LastEditTime: 2020-07-29 21:31:46
+ * @LastEditors: JackChouMine
+-->
+<button class="navbar-toggle"></button>
+
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/portrait.png" alt="JackChouMine"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="GitHub" href="https://github.com/jackchoumine" target="_blank">
+        <i class="fe fe-github"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="stackoverflow" href="https://stackoverflow.com/users/6524962/jackchoumine" target="_blank">
+        栈溢
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="思否" href="https://segmentfault.com/u/jackzhoumine" target="_blank">
+        思否
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+    <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    node 中的 ES 模块 |
+    
+    JackChouMine</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+</html>
+<body>
+<main class="content">
+  <section class="outer">
+  <article id="post-node-中的-ES-模块" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      node 中的 ES 模块
+    </h1>
+  
+
+      </header>
+    
+
+    
+      <div class="article-meta">
+        <a href="/2019/06/16/node-中的-ES-模块/" class="article-date">
+  <time datetime="2019-06-16T13:36:35.000Z" itemprop="datePublished">2019-06-16</time>
+</a>
+        
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/node/">node</a>
+  </div>
+
+      </div>
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+
+      
+
+      
+        <p>[TOC]</p>
+<p>ES6 模块的设计思想是尽量静态化，在编译时就能确定依赖关系，以及输入和输出变量，是编译时加载。编译时加载可实现静态优化，类型检查等都在静态分析实现。CommmonJS 是运行时加载，加载的是对象，不能静态优化。ES6 模块不是对象，而是通过 <strong>export</strong> 命令显示输出代码，再通过<strong>import</strong>导出。</p>
+<p>目前 node 对 ES6 的支持尚处在实验阶段，可编写<code>.mjs</code> 和给 node 命令增加<code>--experimental-modules</code> 使用 ES6 模块。</p>
+<a id="more"></a>
+<h2 id="es6-自动启用严格模式"><a class="markdownIt-Anchor" href="#es6-自动启用严格模式"></a> ES6 自动启用严格模式</h2>
+<p>有以下限制：</p>
+<ul>
+<li>变量必须先声明再使用；</li>
+<li>不能删除变量<code>delte prop</code>,只能删除属性<code>delete global[prop]</code>;</li>
+<li><code>arguments</code>不随函数参数变化；</li>
+<li>禁止 <code>this</code>指向全局对象，顶层 this 指向 <code>undefined</code>；</li>
+<li>增加保留字<code>protected</code>、<code>satic</code>、<code>interface</code>等。</li>
+</ul>
+<h2 id="导出接口"><a class="markdownIt-Anchor" href="#导出接口"></a> 导出接口</h2>
+<p>导出接口使用 export 命令。一个模块就是一个独立的文件，文件内部的变量，外部王无法获取。</p>
+<h3 id="export-命令"><a class="markdownIt-Anchor" href="#export-命令"></a> export 命令</h3>
+<p>逐个导出接口：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// name.mjs</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> firstName = <span class="string">'JACK'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> lastName = <span class="string">'Zhou'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">let</span> myFun = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>引入接口：<br>
+大括号里面的接口名，必须和导出的相同。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//app.mjs</span></span><br><span class="line"><span class="keyword">import</span> &#123; firstName,lastName,myFun &#125; <span class="keyword">from</span> <span class="string">"./name"</span>;</span><br><span class="line"><span class="built_in">console</span>.log(firstName +<span class="string">' '</span>+ lastName);</span><br><span class="line">myFun()</span><br></pre></td></tr></table></figure>
+<p>统一导出：<br>
+如果不想暴露内部变量的名字，可用<code>as</code>指定<strong>导出名</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> firstName = <span class="string">'JACK'</span>;</span><br><span class="line"><span class="keyword">let</span> lastName = <span class="string">'Zhou'</span>;</span><br><span class="line"><span class="keyword">let</span> myFun = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> (firstName = <span class="string">'HaHa'</span>), <span class="number">10</span>); <span class="comment">//在10毫秒后改变导出接口的值</span></span><br><span class="line"><span class="keyword">export</span> &#123; firstName <span class="keyword">as</span> name, lastName, myFun &#125;;</span><br></pre></td></tr></table></figure>
+<p>引入：<br>
+可用<code>as</code>给导出的接口取一个别名。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; name <span class="keyword">as</span> firstName, lastName, myFun &#125; <span class="keyword">from</span> <span class="string">'./name'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(firstName + <span class="string">' '</span> + lastName);</span><br><span class="line">myFun();</span><br><span class="line"><span class="comment">// 2秒后输出新的值 HaHa</span></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(firstName);</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JACK ZHOU</span><br><span class="line">JACK ZHOU</span><br><span class="line">Haha</span><br></pre></td></tr></table></figure>
+<p>**setTimeout(() =&gt; (firstName = ‘HAHHAH’), 10);**在10毫秒后改变导出接口的值。<code>export</code> 导出的接口和值是动态绑定的。即可通过接口获取模块内部实时的值。这和CommonJS 规范完全不同，其保存的是模块内的缓存。</p>
+<p>导出的接口是<strong>常量</strong>，不可修改，否则报<code>TypeError:Assingment to constant variable.</code>。但是可修改<strong>对象</strong>，包括数组、包装对象等。<br>
+<strong>但是不推荐这么做，，容易出错，还难以调试</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//my.mjs</span></span><br><span class="line"><span class="keyword">let</span> firstName = <span class="string">'JACK'</span>;</span><br><span class="line"><span class="keyword">let</span> lastName = <span class="string">'Zhou'</span>;</span><br><span class="line"><span class="keyword">let</span> myFun = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	age: <span class="number">10</span>,</span><br><span class="line">	ID: <span class="string">'1313134'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> arr = [<span class="string">'1'</span>, <span class="string">'2'</span>];</span><br><span class="line"><span class="keyword">let</span>  oNum= <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">12</span>)</span><br><span class="line"><span class="keyword">export</span> &#123; arr, obj ,myFun,oNum&#125;;</span><br></pre></td></tr></table></figure>
+<p>引入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; arr, obj, myFun, oNum &#125; <span class="keyword">from</span> <span class="string">'./name'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(obj);</span><br><span class="line">obj.age++; #修改对象</span><br><span class="line"><span class="built_in">console</span>.log(obj);</span><br><span class="line">arr.push('你好'); # 修改数组 数组是特殊的对象</span><br><span class="line"><span class="built_in">console</span>.log(arr); </span><br><span class="line">myFun();</span><br><span class="line"><span class="comment">// myFun=()=&gt;'周杰' 这里报错</span></span><br><span class="line"><span class="built_in">console</span>.log(oNum.valueOf());</span><br><span class="line">oNum.age = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">console</span>.log(oNum);</span><br><span class="line"><span class="built_in">console</span>.log(oNum.age);</span><br></pre></td></tr></table></figure>
+<p>整体引入,修改上述引入方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> OBJ <span class="keyword">from</span> <span class="string">'./name'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(OBJ.obj);</span><br></pre></td></tr></table></figure>
+<p>用*****指定一个对象，将接口都加载到好对象上。</p>
+<p>import 提升效果：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(OBJ.obj);</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> OBJ <span class="keyword">from</span> <span class="string">'./name'</span>;</span><br></pre></td></tr></table></figure>
+<p>这种效果的本质是模块在<strong>编译时加载，而非运行时</strong>。<br>
+加载时可不暴露任何接口。那这样有和作用呢？如何调用接口？？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'./name'</span>; </span><br><span class="line"><span class="keyword">import</span> <span class="string">'./name'</span>; <span class="comment">//多次加载，只会执行一次</span></span><br></pre></td></tr></table></figure>
+<p>比如 vue 自定义指令，已经在指令定义文件中使用 <code>Vue.directive</code>函数定义指令了，就可以不导出接口，引入时也不需要导入任何接口。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json <span class="keyword">from</span> <span class="string">'./json'</span>;</span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">const</span> directives = &#123;</span><br><span class="line">  json</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> [key, value] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(directives)) &#123;</span><br><span class="line">  Vue.directive(key, value);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// export &#123;json&#125;</span></span><br></pre></td></tr></table></figure>
+<p>在main.js 引入：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义指令 这里不需要导入任何接口</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'./directives'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="export-default-命令"><a class="markdownIt-Anchor" href="#export-default-命令"></a> export default 命令</h3>
+<p>上面接口的导出方式，在引入时都需要先知道接口名字，否则无法加载。但是用户往往不想要先阅读文档，了解接口。<code>export default</code>就是为模块指定默认接口的，引入时接口名可随意命名。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//my.mjs</span></span><br><span class="line"><span class="keyword">let</span> firstName = <span class="string">'JACK'</span>;</span><br><span class="line"><span class="keyword">let</span> lastName = <span class="string">'Zhou'</span>;</span><br><span class="line"><span class="keyword">let</span> myFun = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;firstName&#125;</span> <span class="subst">$&#123;lastName&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">	age: <span class="number">10</span>,</span><br><span class="line">	ID: <span class="string">'1313134'</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">let</span> arr = [<span class="string">'1'</span>, <span class="string">'2'</span>];</span><br><span class="line"><span class="keyword">let</span> oNum = <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">export</span> &#123; obj, myFun, oNum &#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> arr; <span class="comment">//默认接口 一个模块只能有一个</span></span><br></pre></td></tr></table></figure>
+<p>引入；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Obj <span class="keyword">from</span> <span class="string">'./name'</span>; <span class="comment">//将默认接口加载到 Obj 上</span></span><br><span class="line"><span class="built_in">console</span>.log(Obj);</span><br><span class="line"><span class="keyword">import</span> &#123; obj, myFun, oNum &#125; <span class="keyword">from</span> <span class="string">'./name'</span>; <span class="comment">//引入命名接口</span></span><br><span class="line"><span class="built_in">console</span>.log(obj);</span><br><span class="line"><span class="built_in">console</span>.log(myFun);</span><br><span class="line"><span class="built_in">console</span>.log(oNum);</span><br></pre></td></tr></table></figure>
+<p><strong>export default Interface</strong> 的实质是将接口命名为 <strong>default</strong>。<br>
+<code>export default arr</code> 和 <code>export {arr as default}</code>相同。</p>
+<p><code>export default</code> 导出匿名函数都是可以的，还可用来导出类。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">	&#125;</span><br><span class="line">	toString() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">`(<span class="subst">$&#123;<span class="keyword">this</span>.x&#125;</span>,<span class="subst">$&#123;<span class="keyword">this</span>.y&#125;</span>)`</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> greeting = <span class="string">'hello class'</span>;</span><br><span class="line"><span class="keyword">export</span> &#123; greeting &#125;; <span class="comment">// export default 可和多个export 混用</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Point;</span><br></pre></td></tr></table></figure>
+<p>引入接口:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Point, &#123; greeting &#125; <span class="keyword">from</span> <span class="string">'./Point'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(greeting);</span><br><span class="line"><span class="keyword">let</span> point = <span class="keyword">new</span> Point(<span class="number">3</span>, <span class="number">4</span>);</span><br><span class="line"><span class="built_in">console</span>.log(point.toString());</span><br><span class="line"><span class="built_in">console</span>.log(point <span class="keyword">instanceof</span> Point);</span><br></pre></td></tr></table></figure>
+<h2 id="引入接口"><a class="markdownIt-Anchor" href="#引入接口"></a> 引入接口</h2>
+<p>总结</p>
+<ul>
+<li>import 命令经静态分析后先于其他语句执行；</li>
+<li>import from ,from 指定模块位置，可以是相对路径或者绝对路径，不带路径，就需要用配置文件告诉JS引擎。</li>
+<li>静态加载是import有提升效果，多次加载只执行一次；</li>
+<li>引入接口时可不输出接口；</li>
+<li><code>as</code> 可改写接口名字；</li>
+<li>编译时加载可实时获取模块内部的变量。</li>
+<li>关于是否使用大括号引入：
+<ul>
+<li>引入<code>export default</code>导出的接口，不使用大括号；</li>
+<li>引入<code>export</code>导出的接口，一般使用大括号，用<code>as</code>整体引入就不使用大括号。</li>
+</ul>
+</li>
+</ul>
+<h2 id="export-和-import-复合使用"><a class="markdownIt-Anchor" href="#export-和-import-复合使用"></a> export 和 import 复合使用</h2>
+<h2 id="import-动态引入模块"><a class="markdownIt-Anchor" href="#import-动态引入模块"></a> import 动态引入模块</h2>
+<p>前面的加载无法实现按需加载或者动态加载，因此引入<code>import()</code>指令，不是函数，因此不具备函数的特性，比如调用<code>apply</code>、<code>bind</code>、从<code>Function.prototype</code>获得继承，返回<code>Promise</code>对象，模块会作为<code>then</code>方法的参数。import 能接受的参数，import()都能接受。<br>
+<strong>require</strong>是异步动态记载，import() 是动态同步加载。</p>
+<p>import() 适用场景</p>
+<ul>
+<li>按需加载和条件加载；</li>
+<li>路径动态改变的模块；</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//dynam.mjs</span></span><br><span class="line"><span class="keyword">let</span> n = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">let</span> sayHello = <span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'hello'</span>, name);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> &#123; n &#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> sayHello;</span><br></pre></td></tr></table></figure>
+<p>引入模块：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	<span class="keyword">import</span>(<span class="string">'./dynamic.mjs'</span>).then(<span class="function"><span class="params">module</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">module</span>)</span><br><span class="line">    <span class="built_in">console</span>.table(<span class="built_in">module</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">module</span>.n);</span><br><span class="line">	sayHello('JACK'); # 用 export default 导出的模块，直接在then方法里调用</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用 export default 导出的模块，直接在then方法里直接使用接口，但是有会感觉这个接口来的太突然，推荐动态加载的模块都用 export 导出，然后在引入时解构赋值提取接口。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//dynamic.mjs</span></span><br><span class="line"><span class="keyword">let</span> n = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">let</span> sayHello = <span class="function"><span class="params">name</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'hello'</span>, name);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> &#123; n, sayHello &#125;;</span><br></pre></td></tr></table></figure>
+<p>引入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	<span class="keyword">import</span>(<span class="string">'./dynamic.mjs'</span>).then(<span class="function">(<span class="params">&#123; sayHello, n &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(n);</span><br><span class="line">		sayHello(<span class="string">'JACK'</span>);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用async函数加载：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">	dynamicLoad();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">dynamicLoad</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> &#123; sayHello, n &#125; = <span class="keyword">await</span> <span class="keyword">import</span>(<span class="string">'./dynamic.mjs'</span>);</span><br><span class="line">	<span class="built_in">console</span>.log(n);</span><br><span class="line">	sayHello(<span class="string">'JACK'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="模块继承"><a class="markdownIt-Anchor" href="#模块继承"></a> 模块继承</h2>
+<p>未完待续</p>
+<h2 id="跨模块常量"><a class="markdownIt-Anchor" href="#跨模块常量"></a> 跨模块常量</h2>
+<p>未完待续</p>
+<h2 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h2>
+<p><a href="https://es6.ruanyifeng.com/#docs/module" target="_blank" rel="noopener">ES6 Module 的语法</a></p>
+
+      
+    </div>
+    
+<h3 style="text-align:center">如有帮助，谢谢您请我喝咖啡 <i class="fe fe-smile"></i></h3>
+<p class="reward" style="text-align:center">
+  <img src="https://raw.githubusercontent.com/jackchoumine/jack-picture/master/alipay2.jpg" title="支付宝扫一扫" alt="支付宝收款二维码" width="30%" height="30%" style="display:inline;"><img src="https://raw.githubusercontent.com/jackchoumine/jack-picture/master/weixin2.jpg" title="微信扫一扫" alt="微信打赏二维码" width="30%" height="30%" style="display:inline;">
+</p>
+
+    
+
+  <div class="declare">
+    <strong>本文作者：</strong>
+    
+      JackChouMine
+    
+    <br>
+    <strong>本文链接：</strong>
+    https://JackChouMine.github.io/2019/06/16/node-中的-ES-模块/
+    <br>
+    <strong>版权声明：</strong>
+    本作品采用
+    <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>
+    进行许可。转载请注明出处！
+    
+      <br>
+      <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      <img alt="知识共享许可协议" title="CC BY-NC-SA 4.0" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
+      </a>
+    
+  </div>
+
+    <footer class="article-footer">
+      <a data-url="https://JackChouMine.github.io/2019/06/16/node-中的-ES-模块/" data-id="ckd7fjfwb000koxqob7vq9nzv" class="article-share-link">分享</a>
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es6/">es6</a></li></ul>
+
+    </footer>
+  </div>
+
+  
+    
+  <nav class="article-nav">
+    
+      <a href="/2019/06/16/npm-语义化版本/" class="article-nav-link">
+        <strong class="article-nav-caption">前一篇</strong>
+        <div class="article-nav-title">
+          
+            npm 语义化版本
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/06/16/yarn-常见命令/" class="article-nav-link">
+        <strong class="article-nav-caption">后一篇</strong>
+        <div class="article-nav-title">yarn 常见命令</div>
+      </a>
+    
+  </nav>
+
+
+  
+  
+  <div class="recommended_posts">
+    <h3>推荐阅读</h3>
+    <ul>
+    
+    
+      <li>
+        <a href="https://JackChouMine.github.io/2019/06/20/防抖和节流/" title="防抖和节流" target="_blank">
+        防抖和节流
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://JackChouMine.github.io/2019/06/16/npm-语义化版本/" title="npm 语义化版本" target="_blank">
+        npm 语义化版本
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://JackChouMine.github.io/2019/06/16/yarn-常见命令/" title="yarn 常见命令" target="_blank">
+        yarn 常见命令
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://JackChouMine.github.io/2019/06/16/跨域请求/" title="跨域请求" target="_blank">
+        跨域请求
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+
+  
+    
+  <div class="gitalk" id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: '90f92ec37c1bf3ff8c87',
+      clientSecret: 'c746c91801c749223e933fb3393dd4fd7f0e53a6',
+      repo: 'blog-comment',
+      owner: 'jackchoumine',
+      admin: ['jackchoumine'],
+      // id: location.pathname,      // Ensure uniqueness and length less than 50
+      id: md5(location.pathname),
+      distractionFreeMode: false,  // Facebook-like distraction free mode
+      pagerDirection: 'last'
+    })
+
+  gitalk.render('gitalk-container')
+  </script>
+
+  
+
+</article>
+
+
+
+</section>
+  <footer class="footer">
+  
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 JackChouMine</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <!--
+ * @Description: 侧边栏
+ * @Date: 2020-07-29 21:03:01
+ * @Author: JackChouMine
+ * @LastEditTime: 2020-07-29 21:31:46
+ * @LastEditors: JackChouMine
+-->
+<button class="navbar-toggle"></button>
+
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/portrait.png" alt="JackChouMine"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="GitHub" href="https://github.com/jackchoumine" target="_blank">
+        <i class="fe fe-github"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="stackoverflow" href="https://stackoverflow.com/users/6524962/jackchoumine" target="_blank">
+        栈溢
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="思否" href="https://segmentfault.com/u/jackzhoumine" target="_blank">
+        思否
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+    <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="fe fe-feed"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+<script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+  <script src="/js/search.js"></script>
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+</html>
